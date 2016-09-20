@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme" content="hugo-academic">
+    <meta name="generator" content="Hugo 0.17-DEV" />
+    <meta name="author" content="Ryan B. Cole">
+    <meta name="description" content="Computer Science Student">
+
+    <link rel="stylesheet" href="http://14rcole.github.iocss/highlight.min.css">
+    <link rel="stylesheet" href="http://14rcole.github.iocss/bootstrap.min.css">
+    <link rel="stylesheet" href="http://14rcole.github.iocss/font-awesome.min.css">
+    <link rel="stylesheet" href="http://14rcole.github.iocss/academicons.min.css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700|Merriweather|Roboto+Mono">
+    <link rel="stylesheet" href="http://14rcole.github.iocss/hugo-academic.css">
+    
+
+    
+    <link rel="shortcut icon" href="http://14rcole.github.ioimg/favicon.ico" type="image/x-icon">
+    <link rel="canonical" href="http://14rcole.github.io/post/cgo-part1-structs/">
+
+    <title>Best Practices in cgo Part I: Structs | Ryan Cole</title>
+
+</head>
+<body id="top">
+
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+    <div class="container">
+
+        
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://14rcole.github.io">Ryan Cole</a>
+        </div>
+
+        
+        <div class="collapse navbar-collapse" id="#navbar-collapse-1">
+
+            
+            <ul class="nav navbar-nav navbar-right">
+                
+                <li class="nav-item"><a href="http://14rcole.github.io#top">Home</a></li>
+                
+                <li class="nav-item"><a href="http://14rcole.github.io#employment">Employment</a></li>
+                
+                <li class="nav-item"><a href="http://14rcole.github.io#projects">Projects</a></li>
+                
+                <li class="nav-item"><a href="http://14rcole.github.io#posts">Posts</a></li>
+                
+                <li class="nav-item"><a href="http://14rcole.github.io#contact">Contact</a></li>
+                
+                <li class="nav-item"><a href="http://14rcole.github.iodocs/Resume.pdf">Resume</a></li>
+                
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <article class="article" itemscope itemtype="http://schema.org/Article">
+
+        
+
+        <h1 itemprop="name">Best Practices in cgo Part I: Structs</h1>
+
+        
+
+<div class="article-metadata">
+
+    <span class="article-date">
+        <time datetime="2016-04-20 12:00:00 &#43;0000 UTC" itemprop="datePublished">Wed, Apr 20, 2016</time>
+    </span>
+
+    
+    
+    
+    <span class="article-tags">
+        <i class="fa fa-tags"></i>
+        
+        <a class="article-tag-link" href="http://14rcole.github.iotags/golang">golang</a>, 
+        
+        <a class="article-tag-link" href="http://14rcole.github.iotags/c">c</a>, 
+        
+        <a class="article-tag-link" href="http://14rcole.github.iotags/cgo">cgo</a>
+        
+    </span>
+    
+    
+
+    
+        
+<div class="share-box">
+    <ul class="share">
+        <li>
+            <a class="facebook" href="https://www.facebook.com/sharer.php?u=http%3a%2f%2f14rcole.github.io%2fpost%2fcgo-part1-structs%2f" target="_blank">
+                <i class="fa fa-facebook"></i>
+            </a>
+        </li>
+        <li>
+            <a class="twitter" href="https://twitter.com/intent/tweet?text=Best%20Practices%20in%20cgo%20Part%20I%3a%20Structs&amp;url=http%3a%2f%2f14rcole.github.io%2fpost%2fcgo-part1-structs%2f" target="_blank">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li>
+            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2f14rcole.github.io%2fpost%2fcgo-part1-structs%2f&amp;title=Best%20Practices%20in%20cgo%20Part%20I%3a%20Structs" target="_blank">
+                <i class="fa fa-linkedin"></i>
+            </a>
+        </li>
+        <li>
+            <a class="weibo" href="http://service.weibo.com/share/share.php?url=http%3a%2f%2f14rcole.github.io%2fpost%2fcgo-part1-structs%2f&amp;title=Best%20Practices%20in%20cgo%20Part%20I%3a%20Structs" target="_blank">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li>
+            <a class="email" href="mailto:?subject=Best%20Practices%20in%20cgo%20Part%20I%3a%20Structs&amp;body=http%3a%2f%2f14rcole.github.io%2fpost%2fcgo-part1-structs%2f">
+                <i class="fa fa-envelope"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+    
+
+</div>
+
+
+        <div class="article-style" itemprop="articleBody">
+            
+
+<p>One of the libraries that makes Go so powerful is cgo, a set of bindings for calling C code from Go.  This is called a Foreign Function Interface (or FFI) and despite the versatility it adds to Go, it can be a tricky library to use.  To help ease new users through some of the trickier aspects of cgo, here are some general best practices.</p>
+
+<h2 id="structs">Structs</h2>
+
+<p>Handing C structs is one of the most common issues with cgo code.  Take a look at the code down below:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f92672">package</span> <span style="color: #a6e22e">person</span>
+
+<span style="color: #f92672">import</span> <span style="color: #f8f8f2">(</span>
+	<span style="color: #e6db74">&quot;fmt&quot;</span>
+<span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">// #include &quot;../structs.h&quot;</span>
+<span style="color: #f92672">import</span> <span style="color: #e6db74">&quot;C&quot;</span>
+
+<span style="color: #66d9ef">func</span> <span style="color: #a6e22e">PrintPerson</span><span style="color: #f8f8f2">()</span> <span style="color: #f8f8f2">{</span>
+	<span style="color: #a6e22e">p</span> <span style="color: #f92672">:=</span> <span style="color: #a6e22e">GetPerson</span><span style="color: #f8f8f2">()</span>
+	<span style="color: #a6e22e">fmt</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Println</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;name:&quot;</span><span style="color: #f8f8f2">,</span> <span style="color: #a6e22e">C</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">GoString</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">p</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">name</span><span style="color: #f8f8f2">))</span>
+	<span style="color: #a6e22e">fmt</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Println</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;age:&quot;</span><span style="color: #f8f8f2">,</span> <span style="color: #a6e22e">p</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">age</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">}</span>
+
+<span style="color: #66d9ef">func</span> <span style="color: #a6e22e">GetPerson</span><span style="color: #f8f8f2">()</span> <span style="color: #f92672">*</span><span style="color: #a6e22e">C</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Person</span> <span style="color: #f8f8f2">{</span>
+	<span style="color: #a6e22e">p</span> <span style="color: #f92672">:=</span> <span style="color: #a6e22e">C</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">new_person</span><span style="color: #f8f8f2">()</span>
+	<span style="color: #a6e22e">p</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">name</span> <span style="color: #f8f8f2">=</span> <span style="color: #a6e22e">C</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">CString</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;John Doe&quot;</span><span style="color: #f8f8f2">)</span>
+	<span style="color: #a6e22e">p</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">age</span> <span style="color: #f8f8f2">=</span> <span style="color: #ae81ff">39</span>
+	<span style="color: #66d9ef">return</span> <span style="color: #a6e22e">p</span>
+<span style="color: #f8f8f2">}</span>
+</pre></div>
+
+<p>If your code looks something like this, then you shouldn&rsquo;t have a problem.  But let&rsquo;s say we import this library in another project and try to call foo from there:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f92672">package</span> <span style="color: #a6e22e">employee</span>
+
+<span style="color: #f92672">import</span> <span style="color: #f8f8f2">(</span>
+	<span style="color: #e6db74">&quot;fmt&quot;</span>
+
+	<span style="color: #e6db74">&quot;github.com/14rcole/cgo-examples/structs/person&quot;</span>
+<span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">// #include &quot;../structs.h&quot;</span>
+<span style="color: #f92672">import</span> <span style="color: #e6db74">&quot;C&quot;</span>
+
+<span style="color: #66d9ef">type</span> <span style="color: #a6e22e">employee</span> <span style="color: #66d9ef">struct</span> <span style="color: #f8f8f2">{</span>
+	<span style="color: #a6e22e">name</span>    <span style="color: #66d9ef">string</span>
+	<span style="color: #a6e22e">age</span>     <span style="color: #66d9ef">int</span>
+	<span style="color: #a6e22e">title</span>   <span style="color: #66d9ef">string</span>
+	<span style="color: #a6e22e">company</span> <span style="color: #66d9ef">string</span>
+<span style="color: #f8f8f2">}</span>
+
+<span style="color: #66d9ef">func</span> <span style="color: #a6e22e">PrintEmployee</span><span style="color: #f8f8f2">()</span> <span style="color: #f8f8f2">{</span>
+	<span style="color: #a6e22e">e</span> <span style="color: #f92672">:=</span> <span style="color: #a6e22e">GetEmployee</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">person</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">GetPerson</span><span style="color: #f8f8f2">())</span>
+	<span style="color: #a6e22e">fmt</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Println</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;name:&quot;</span><span style="color: #f8f8f2">,</span> <span style="color: #a6e22e">e</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">name</span><span style="color: #f8f8f2">)</span>
+	<span style="color: #a6e22e">fmt</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Println</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;age:&quot;</span><span style="color: #f8f8f2">,</span> <span style="color: #a6e22e">e</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">age</span><span style="color: #f8f8f2">)</span>
+	<span style="color: #a6e22e">fmt</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Println</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;title:&quot;</span><span style="color: #f8f8f2">,</span> <span style="color: #a6e22e">e</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">title</span><span style="color: #f8f8f2">)</span>
+	<span style="color: #a6e22e">fmt</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Println</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;company:&quot;</span><span style="color: #f8f8f2">,</span> <span style="color: #a6e22e">e</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">company</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">}</span>
+
+<span style="color: #66d9ef">func</span> <span style="color: #a6e22e">GetEmployee</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">p</span> <span style="color: #f92672">*</span><span style="color: #a6e22e">C</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Person</span><span style="color: #f8f8f2">)</span> <span style="color: #a6e22e">employee</span> <span style="color: #f8f8f2">{</span>
+	<span style="color: #66d9ef">var</span> <span style="color: #a6e22e">e</span> <span style="color: #a6e22e">employee</span>
+	<span style="color: #a6e22e">e</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">name</span> <span style="color: #f8f8f2">=</span> <span style="color: #a6e22e">C</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">GoString</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">p</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">name</span><span style="color: #f8f8f2">)</span>
+	<span style="color: #a6e22e">e</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">age</span> <span style="color: #f8f8f2">=</span> <span style="color: #f8f8f2">(</span><span style="color: #66d9ef">int</span><span style="color: #f8f8f2">)(</span><span style="color: #a6e22e">p</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">age</span><span style="color: #f8f8f2">)</span>
+	<span style="color: #a6e22e">e</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">title</span> <span style="color: #f8f8f2">=</span> <span style="color: #e6db74">&quot;Software Engineer&quot;</span>
+	<span style="color: #a6e22e">e</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">company</span> <span style="color: #f8f8f2">=</span> <span style="color: #e6db74">&quot;Some Cool Company, Inc.&quot;</span>
+
+	<span style="color: #66d9ef">return</span> <span style="color: #a6e22e">e</span>
+<span style="color: #f8f8f2">}</span>
+</pre></div>
+
+<p>When you run this code, you should receive an error that looks something like this:</p>
+
+<pre><code>$ structs/employee/employee.go:19: cannot use person.GetPerson() (type *person.C.struct_Person) as type *C.struct_Person in argument to GetEmployee
+</code></pre>
+
+<p>This is because when person.GetPerson() calls new_person in structs.h, it receives a C struct.  This is assigned to cgos concept of that C struct, which is _C.struct<em>Person</em>.  However, when being passed between functions, the struct has the package name associated with it, just like other Go functions.  So it becomes _person.C.struct<em>Person</em> which, according to Go&rsquo;s type system, is not equivalent to _C.struct<em>Person</em></p>
+
+<h4 id="the-solution">The Solution</h4>
+
+<p>So how to we get around this?  We can&rsquo;t use a typedef.  When the Go compiler reads <code>type foo bar</code> it sees foo as a new type that is identical to type bar, not simply as an alias for it.   So there are two valid solutions to this.  The first is to create a struct that only contains a pointer</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f92672">package</span> <span style="color: #a6e22e">person</span>
+
+<span style="color: #f92672">import</span> <span style="color: #f8f8f2">(</span>
+	<span style="color: #e6db74">&quot;fmt&quot;</span>
+<span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">// #include &quot;../structs.h&quot;</span>
+<span style="color: #f92672">import</span> <span style="color: #e6db74">&quot;C&quot;</span>
+
+<span style="color: #66d9ef">type</span> <span style="color: #a6e22e">CPerson</span> <span style="color: #66d9ef">struct</span> <span style="color: #f8f8f2">{</span>
+    <span style="color: #a6e22e">ptr</span> <span style="color: #a6e22e">unsafe</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Pointer</span>
+<span style="color: #f8f8f2">}</span>
+
+<span style="color: #66d9ef">func</span> <span style="color: #f8f8f2">(</span><span style="color: #a6e22e">cp</span> <span style="color: #a6e22e">CPerson</span><span style="color: #f8f8f2">)</span> <span style="color: #a6e22e">CPersonToNative</span><span style="color: #f8f8f2">()</span> <span style="color: #f92672">*</span><span style="color: #a6e22e">C</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Person</span> <span style="color: #f8f8f2">{</span>
+    <span style="color: #66d9ef">return</span> <span style="color: #a6e22e">cp</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">ptr</span>
+<span style="color: #f8f8f2">}</span>
+
+<span style="color: #66d9ef">func</span> <span style="color: #a6e22e">NewCPerson</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">p</span> <span style="color: #a6e22e">unsafe</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Pointer</span><span style="color: #f8f8f2">)</span> <span style="color: #a6e22e">CPerson</span> <span style="color: #f8f8f2">{</span>
+    <span style="color: #66d9ef">var</span> <span style="color: #a6e22e">cp</span> <span style="color: #a6e22e">CPerson</span>
+    <span style="color: #a6e22e">cp</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">ptr</span> <span style="color: #f8f8f2">=</span> <span style="color: #a6e22e">p</span>
+    <span style="color: #66d9ef">return</span> <span style="color: #a6e22e">CPerson</span>
+<span style="color: #f8f8f2">}</span>
+
+<span style="color: #66d9ef">func</span> <span style="color: #a6e22e">PrintPerson</span><span style="color: #f8f8f2">()</span> <span style="color: #f8f8f2">{</span>
+	<span style="color: #a6e22e">p</span> <span style="color: #f92672">:=</span> <span style="color: #a6e22e">GetPerson</span><span style="color: #f8f8f2">()</span>
+	<span style="color: #a6e22e">fmt</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Println</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;name:&quot;</span><span style="color: #f8f8f2">,</span> <span style="color: #a6e22e">C</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">GoString</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">p</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">name</span><span style="color: #f8f8f2">))</span>
+	<span style="color: #a6e22e">fmt</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Println</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;age:&quot;</span><span style="color: #f8f8f2">,</span> <span style="color: #a6e22e">p</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">age</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">}</span>
+
+<span style="color: #66d9ef">func</span> <span style="color: #a6e22e">GetPerson</span><span style="color: #f8f8f2">()</span> <span style="color: #a6e22e">CPerson</span> <span style="color: #f8f8f2">{</span>
+	<span style="color: #a6e22e">p</span> <span style="color: #f92672">:=</span> <span style="color: #a6e22e">NewCPerson</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">unsafe</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Pointer</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">C</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">new_person</span><span style="color: #f8f8f2">()))</span>
+	<span style="color: #a6e22e">p</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">name</span> <span style="color: #f8f8f2">=</span> <span style="color: #a6e22e">C</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">CString</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;John Doe&quot;</span><span style="color: #f8f8f2">)</span>
+	<span style="color: #a6e22e">p</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">age</span> <span style="color: #f8f8f2">=</span> <span style="color: #ae81ff">39</span>
+	<span style="color: #66d9ef">return</span> <span style="color: #a6e22e">p</span>
+<span style="color: #f8f8f2">}</span>
+</pre></div>
+
+<p>After this, anytime the C struct Person needs to be used outside of the Go struct, package.CPerson can be used instead.  CPerson.CPersonToNative() can be used to generate a native C struct to pass back into a C function.  Of course, that can be painful, as you&rsquo;ll begin to have nested function calls on function calls and typecasts for that unsafe.Pointer that&rsquo;s being passed around.  Even something as simple as accessing a string value in the struct would be as complex as this:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">var</span> <span style="color: #a6e22e">name</span> <span style="color: #f92672">:=</span> <span style="color: #a6e22e">C</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">GoString</span><span style="color: #f8f8f2">(((</span><span style="color: #f92672">*</span><span style="color: #a6e22e">C</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Person</span><span style="color: #f8f8f2">)(</span><span style="color: #a6e22e">cp</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">CPersonToNative</span><span style="color: #f8f8f2">())).</span><span style="color: #a6e22e">name</span><span style="color: #f8f8f2">)</span>
+</pre></div>
+
+<p>Pretty messy, huh?  There is another way to handle structs as well.  It takes more work to implement and requires more computation to convert between the C and Go versions of the struct but it makes accessing values in the struct far easier.  You could unmarshal all of the data from your C struct into a Go struct.  Converting back to native would require remarshalling into a C struct.  That would look something like this:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f92672">package</span> <span style="color: #a6e22e">person</span>
+
+<span style="color: #f92672">import</span> <span style="color: #f8f8f2">(</span>
+	<span style="color: #e6db74">&quot;fmt&quot;</span>
+<span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e">// #include &quot;../structs.h&quot;</span>
+<span style="color: #f92672">import</span> <span style="color: #e6db74">&quot;C&quot;</span>
+
+<span style="color: #66d9ef">type</span> <span style="color: #a6e22e">CPerson</span> <span style="color: #66d9ef">struct</span> <span style="color: #f8f8f2">{</span>
+    <span style="color: #a6e22e">ptr</span> <span style="color: #a6e22e">unsafe</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Pointer</span>
+<span style="color: #f8f8f2">}</span>
+
+<span style="color: #66d9ef">func</span> <span style="color: #f8f8f2">(</span><span style="color: #a6e22e">cp</span> <span style="color: #a6e22e">CPerson</span><span style="color: #f8f8f2">)</span> <span style="color: #a6e22e">CPersonToNative</span><span style="color: #f8f8f2">()</span> <span style="color: #f92672">*</span><span style="color: #a6e22e">C</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Person</span> <span style="color: #f8f8f2">{</span>
+    <span style="color: #a6e22e">p</span> <span style="color: #f92672">*</span><span style="color: #a6e22e">C</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">person</span>
+    <span style="color: #a6e22e">p</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">name</span> <span style="color: #f8f8f2">=</span> <span style="color: #a6e22e">C</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">CString</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">cp</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">name</span><span style="color: #f8f8f2">)</span>
+    <span style="color: #a6e22e">p</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">age</span> <span style="color: #f8f8f2">=</span> <span style="color: #f8f8f2">(</span><span style="color: #a6e22e">C</span><span style="color: #f8f8f2">.</span><span style="color: #66d9ef">int</span><span style="color: #f8f8f2">)(</span><span style="color: #a6e22e">cp</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">age</span><span style="color: #f8f8f2">)</span>
+    <span style="color: #66d9ef">return</span> <span style="color: #a6e22e">p</span>
+<span style="color: #f8f8f2">}</span>
+
+<span style="color: #66d9ef">func</span> <span style="color: #a6e22e">NewCPerson</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">ptr</span> <span style="color: #a6e22e">unsafe</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Pointer</span><span style="color: #f8f8f2">)</span> <span style="color: #a6e22e">CPerson</span> <span style="color: #f8f8f2">{</span>
+    <span style="color: #66d9ef">var</span> <span style="color: #a6e22e">cp</span> <span style="color: #a6e22e">CPerson</span>
+    <span style="color: #a6e22e">p</span> <span style="color: #f92672">:=</span> <span style="color: #f8f8f2">(</span><span style="color: #f92672">*</span><span style="color: #a6e22e">C</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Person</span><span style="color: #f8f8f2">)(</span><span style="color: #a6e22e">ptr</span><span style="color: #f8f8f2">)</span>
+    <span style="color: #a6e22e">cp</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">name</span> <span style="color: #f8f8f2">=</span> <span style="color: #a6e22e">C</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">GoString</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">p</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">name</span><span style="color: #f8f8f2">)</span>
+    <span style="color: #a6e22e">cp</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">age</span> <span style="color: #f8f8f2">=</span> <span style="color: #f8f8f2">(</span><span style="color: #66d9ef">int</span><span style="color: #f8f8f2">)(</span><span style="color: #a6e22e">p</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">age</span><span style="color: #f8f8f2">)</span>
+    <span style="color: #66d9ef">return</span> <span style="color: #a6e22e">cp</span>
+<span style="color: #f8f8f2">}</span>
+
+<span style="color: #66d9ef">func</span> <span style="color: #a6e22e">PrintPerson</span><span style="color: #f8f8f2">()</span> <span style="color: #f8f8f2">{</span>
+	<span style="color: #a6e22e">p</span> <span style="color: #f92672">:=</span> <span style="color: #a6e22e">GetPerson</span><span style="color: #f8f8f2">()</span>
+	<span style="color: #a6e22e">fmt</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Println</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;name:&quot;</span><span style="color: #f8f8f2">,</span> <span style="color: #a6e22e">C</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">GoString</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">p</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">name</span><span style="color: #f8f8f2">))</span>
+	<span style="color: #a6e22e">fmt</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Println</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;age:&quot;</span><span style="color: #f8f8f2">,</span> <span style="color: #a6e22e">p</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">age</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">}</span>
+
+<span style="color: #66d9ef">func</span> <span style="color: #a6e22e">GetPerson</span><span style="color: #f8f8f2">()</span> <span style="color: #a6e22e">CPerson</span> <span style="color: #f8f8f2">{</span>
+	<span style="color: #a6e22e">p</span> <span style="color: #f92672">:=</span> <span style="color: #a6e22e">NewCPerson</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">unsafe</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Pointer</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">C</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">new_person</span><span style="color: #f8f8f2">()))</span>
+	<span style="color: #a6e22e">p</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">name</span> <span style="color: #f8f8f2">=</span> <span style="color: #a6e22e">C</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">CString</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;John Doe&quot;</span><span style="color: #f8f8f2">)</span>
+	<span style="color: #a6e22e">p</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">age</span> <span style="color: #f8f8f2">=</span> <span style="color: #ae81ff">39</span>
+	<span style="color: #66d9ef">return</span> <span style="color: #a6e22e">p</span>
+<span style="color: #f8f8f2">}</span>
+</pre></div>
+
+<p>Altough the unmarshalling here was straightforward enough, I&rsquo;m sure you can imagine how complex it could all get, especially if the C structs contained other C structs.  This may not always be a viable option, but it certainly helps with accessing variables.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>So that&rsquo;s everything.  A best practices guide for C structs in Go.  Unfortunately there&rsquo;s no completely elegant solution to the problem.  FFI stuff is hard.  That being said, hopefully this guide and the next installments will get you started in the right direction the next time you have to type <code>import &quot;C&quot;</code></p>
+
+        </div>
+
+    </article>
+
+    <nav>
+    <ul class="pager">
+        
+
+        
+    </ul>
+</nav>
+
+    
+
+
+</div>
+<footer class="site-footer">
+    <div class="container">
+        <p class="powered-by">
+
+            &copy; 2016 Ryan Cole &middot; 
+
+            Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
+
+            <span class="pull-right"><a href="#" id="back_to_top"><span class="button_icon"><i class="fa fa-chevron-up fa-2x" aria-hidden="true"></i></span></a></span>
+
+        </p>
+    </div>
+</footer>
+
+        <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/ScrollToPlugin.min.js"></script>
+        <script src="http://14rcole.github.iojs/jquery-1.12.3.min.js"></script>
+        <script src="http://14rcole.github.iojs/bootstrap.min.js"></script>
+        <script src="http://14rcole.github.iojs/hugo-academic.js"></script>
+        
+
+        
+
+        
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+
+        
+        
+
+    </body>
+</html>
+

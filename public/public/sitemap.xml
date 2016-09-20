@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://14rcole.github.io/</loc>
+    <lastmod>2016-09-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://14rcole.github.io/home/about/</loc>
+    <lastmod>2016-09-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://14rcole.github.io/project/colang/</loc>
+    <lastmod>2016-08-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://14rcole.github.io/project/os-explode/</loc>
+    <lastmod>2016-08-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://14rcole.github.io/project/ostree-go/</loc>
+    <lastmod>2016-07-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://14rcole.github.io/employment/red-hat/</loc>
+    <lastmod>2016-05-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://14rcole.github.io/post/cgo-part1-structs/</loc>
+    <lastmod>2016-04-20T12:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://14rcole.github.io/project/qbits/</loc>
+    <lastmod>2016-03-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://14rcole.github.io/employment/imrc/</loc>
+    <lastmod>2015-08-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://14rcole.github.io/employment/kimballs/</loc>
+    <lastmod>2013-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+</urlset>

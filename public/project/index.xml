@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Project-rsses on Ryan Cole</title>
+    <link>http://14rcole.github.io/project/index.xml</link>
+    <description>Recent content in Project-rsses on Ryan Cole</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2016 Ryan Cole</copyright>
+    <lastBuildDate>Thu, 25 Aug 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/project/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Colang</title>
+      <link>http://14rcole.github.io/project/colang/</link>
+      <pubDate>Thu, 25 Aug 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://14rcole.github.io/project/colang/</guid>
+      <description>&lt;p&gt;This project was more for the learning experience than anything else.  I wanted to discover a bit more about how functional programming languages are implemented.  So I decided to build one.  Along the way I&amp;rsquo;ve learned quite a bit about programming in C as well.  This includes everything from the linking, to setting a coding style, to formatting files and the code within them such that the project can easily be scaled as it grows.  The project is far from finished.  In fact, it&amp;rsquo;s just getting started!  That being said, I&amp;rsquo;ve already learned a ton from it and am really looking forward to what the rest of the project has in store.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Os-explode</title>
+      <link>http://14rcole.github.io/project/os-explode/</link>
+      <pubDate>Fri, 12 Aug 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://14rcole.github.io/project/os-explode/</guid>
+      <description>&lt;p&gt;Enterprises that run containers on their public, private, and hybrid clouds want to know that those images are secure.  Os-explode is a tool that sets of the containers to be scanned by a scanning container such as the OpenSCAP container.  Os-explode watches an OpenShift image stream for images being pushed up to a local registry.  It then takes the layers from the images stream and commits each layer into an OSTree repository.  These committed images can then be scanned by scanning containers manually, automatically (i.e. when committed) or on a schedule.  The container images can also be run using runc, a tool for spawning and running containers according to the OCI specification.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ostree-Go</title>
+      <link>http://14rcole.github.io/project/ostree-go/</link>
+      <pubDate>Mon, 25 Jul 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://14rcole.github.io/project/ostree-go/</guid>
+      <description>&lt;p&gt;OSTree is a tool that combines a &amp;ldquo;git-like&amp;rdquo; model for committing and downloading bootable fiesystem trees, along with a layer for deploying them and managing the bootloader configuration.  It was designed so that package managers, system upgrade tools, etc. can use OSTree as a &amp;ldquo;deduplicating hardlink store.&amp;rdquo;  Recently, OSTree has become popular for use with containers.  However, many platforms that work with container do so in Go.  This library provides a set of Go bindings for OSTree that mimic the command line as much as possible so as it make it easy for container teams to use OSTree.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>QBits</title>
+      <link>http://14rcole.github.io/project/qbits/</link>
+      <pubDate>Fri, 25 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://14rcole.github.io/project/qbits/</guid>
+      <description>&lt;p&gt;This project was done for LehighHacks Spring 2016.  The app takes a csv file with power consumption data from an automated lighting system. It then uploads the information to the server where the information is processed and visualized back down in the app.  The user can see graphs of data for power consumption over different periods of time and adjust different variables to see how power consumption would change given certain changes to the system.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

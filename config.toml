@@ -1,0 +1,154 @@
+baseurl = "http://14rcole.github.io"
+title = "Ryan Cole"
+copyright = "&copy; 2016 Ryan Cole"
+languageCode = "en-us"
+theme = "academic"
+
+# Enable comments by entering your Disqus shortname
+disqusShortname = ""
+
+# Enable analytics by entering your Google Analytics tracking ID
+googleAnalytics = ""
+
+# Enable syntax highlighting
+PygmentsCodeFences = true
+
+
+[params]
+  name = "Ryan B. Cole"
+  role = "Computer Science Student"
+  organization = "Lehigh University"
+  avatar = "portrait.jpg"
+  email = "rbc218@lehigh.edu"
+  phone = "978 467 7905"
+
+  # Date format (refer to Go's date format: http://flippinggodateformat.com )
+  #   Examples: "Mon, Jan 2, 2006" or "2006-01-02"
+  date_format = "Mon, Jan 2, 2006"
+
+  # Enable global LaTeX math rendering? If false, you can enable it locally
+  #   on a per page basis.
+  math = false
+
+  # Enable native social sharing buttons?
+  sharing = true
+
+  # Link custom CSS and JS assets (relative to /static/css and
+  #   /static/js respectively)
+  custom_css = []
+  custom_js  = []
+
+  # Biography section.
+  #   Section will only be displayed if `content/home/about.md` exists.
+  [params.about]
+     interests = [
+       "Languages: Golang, C, Python, Bash, Java",
+       "Platforms: Linux, Windows, OpenShift",
+       "Tools: Docker, Kubernetes, Git, Containers"
+    ]
+    str_interests = "Skills"
+    str_education = "Education"
+
+    [[params.about.education]]
+      course = "BSc in Computer Science"
+      institution = "Lehigh University"
+      year = 2018
+      gpa = 3.2
+
+    [[params.about.education]]
+      course = "High School"
+      institution = "Westford Academy"
+      year = 2014
+
+  # Employment section
+  #   Section will only be display if there are employers in
+  #   `content/employment/`.
+  [params.employment]
+    title = "Employment"
+    subtitle = ""
+
+  # Projects section.
+  #   Section will only be displayed if there are projects in
+  #   `content/project/`.
+  [params.projects]
+    title = "Projects"
+    subtitle = ""
+
+  # Posts section.
+  #   Section will only be displayed if there are posts in `content/post/`.
+  [params.posts]
+    count = 5
+    title = "Recent Posts"
+    subtitle = ""
+    str_all = "More Posts"
+    str_read_more = "Read more"
+
+  # Contact section.
+  [params.contact]
+    enable = true
+    title = "Contact"
+    subtitle = ""
+    autolink = true  # Automatically link email and phone?
+
+  # Social/Academic Networking
+  #
+  # Icon pack "fa" includes the following social network icons:
+  #
+  #   twitter, weibo, linkedin, github, facebook, pinterest, google-plus,
+  #   youtube, instagram, soundcloud
+  #
+  #   For email icon, use "fa" icon pack, "envelope" icon, and
+  #   "mailto:your@email.com" as the link.
+  #
+  #   Full list: https://fortawesome.github.io/Font-Awesome/icons/
+  #
+  # Icon pack "ai" includes the following academic network icons:
+  #
+  #   google-scholar, arxiv, orcid, researchgate, mendeley
+  #
+  #   Full list: https://jpswalsh.github.io/academicons/
+
+  [[params.social]]
+    icon = "envelope"
+    icon_pack = "fa"
+    link = "rbc218@lehigh.edu"
+
+
+  [[params.social]]
+    icon = "github"
+    icon_pack = "fa"
+    link = "//github.com/14rcole"
+
+
+# Navigation Links
+#   The weight parameter defines the order that the links will appear in.
+
+[[menu.main]]
+  name = "Home"
+  url = "#top"
+  weight = 1
+
+[[menu.main]]
+  name = "Employment"
+  url = "#employment"
+  weight = 3
+
+[[menu.main]]
+  name = "Projects"
+  url = "#projects"
+  weight = 3
+
+[[menu.main]]
+  name = "Posts"
+  url = "#posts"
+  weight = 4
+
+[[menu.main]]
+  name = "Contact"
+  url = "#contact"
+  weight = 5
+
+[[menu.main]]
+  name = "Resume"
+  url = "docs/Resume.pdf"
+  weight = 6

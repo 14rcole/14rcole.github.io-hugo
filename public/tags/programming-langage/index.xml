@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ryan Cole</title>
+    <link>http://14rcole.github.io/tags/programming-langage/index.xml</link>
+    <description>Recent content on Ryan Cole</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2016 Ryan Cole</copyright>
+    <atom:link href="/tags/programming-langage/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Colang</title>
+      <link>http://14rcole.github.io/project/colang/</link>
+      <pubDate>Thu, 25 Aug 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://14rcole.github.io/project/colang/</guid>
+      <description>&lt;p&gt;This project was more for the learning experience than anything else.  I wanted to discover a bit more about how functional programming languages are implemented.  So I decided to build one.  Along the way I&amp;rsquo;ve learned quite a bit about programming in C as well.  This includes everything from the linking, to setting a coding style, to formatting files and the code within them such that the project can easily be scaled as it grows.  The project is far from finished.  In fact, it&amp;rsquo;s just getting started!  That being said, I&amp;rsquo;ve already learned a ton from it and am really looking forward to what the rest of the project has in store.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

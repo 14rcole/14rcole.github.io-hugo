@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ryan Cole</title>
+    <link>http://14rcole.github.io/tags/containers/index.xml</link>
+    <description>Recent content on Ryan Cole</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2016 Ryan Cole</copyright>
+    <atom:link href="/tags/containers/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Os-explode</title>
+      <link>http://14rcole.github.io/project/os-explode/</link>
+      <pubDate>Fri, 12 Aug 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://14rcole.github.io/project/os-explode/</guid>
+      <description>&lt;p&gt;Enterprises that run containers on their public, private, and hybrid clouds want to know that those images are secure.  Os-explode is a tool that sets of the containers to be scanned by a scanning container such as the OpenSCAP container.  Os-explode watches an OpenShift image stream for images being pushed up to a local registry.  It then takes the layers from the images stream and commits each layer into an OSTree repository.  These committed images can then be scanned by scanning containers manually, automatically (i.e. when committed) or on a schedule.  The container images can also be run using runc, a tool for spawning and running containers according to the OCI specification.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

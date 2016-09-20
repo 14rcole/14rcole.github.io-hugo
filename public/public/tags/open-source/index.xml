@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ryan Cole</title>
+    <link>http://14rcole.github.io/tags/open-source/index.xml</link>
+    <description>Recent content on Ryan Cole</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2016 Ryan Cole</copyright>
+    <atom:link href="/tags/open-source/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Ostree-Go</title>
+      <link>http://14rcole.github.io/project/ostree-go/</link>
+      <pubDate>Mon, 25 Jul 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://14rcole.github.io/project/ostree-go/</guid>
+      <description>&lt;p&gt;OSTree is a tool that combines a &amp;ldquo;git-like&amp;rdquo; model for committing and downloading bootable fiesystem trees, along with a layer for deploying them and managing the bootloader configuration.  It was designed so that package managers, system upgrade tools, etc. can use OSTree as a &amp;ldquo;deduplicating hardlink store.&amp;rdquo;  Recently, OSTree has become popular for use with containers.  However, many platforms that work with container do so in Go.  This library provides a set of Go bindings for OSTree that mimic the command line as much as possible so as it make it easy for container teams to use OSTree.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

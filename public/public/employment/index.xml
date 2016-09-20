@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Employment-rsses on Ryan Cole</title>
+    <link>http://14rcole.github.io/employment/index.xml</link>
+    <description>Recent content in Employment-rsses on Ryan Cole</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2016 Ryan Cole</copyright>
+    <lastBuildDate>Wed, 25 May 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/employment/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title></title>
+      <link>http://14rcole.github.io/employment/red-hat/</link>
+      <pubDate>Wed, 25 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://14rcole.github.io/employment/red-hat/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://14rcole.github.io/employment/imrc/</link>
+      <pubDate>Sun, 30 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://14rcole.github.io/employment/imrc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://14rcole.github.io/employment/kimballs/</link>
+      <pubDate>Fri, 19 Apr 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://14rcole.github.io/employment/kimballs/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
